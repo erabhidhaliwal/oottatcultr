@@ -28,10 +28,11 @@
 
 <body>
 
+@include('inc.header')
 
 {{--Show Errors--}}
 @foreach ($errors->all() as $error)
-
+    <?php var_dump($error); ?> <br><hr>
 @endforeach
 
 @yield('content')
@@ -43,6 +44,7 @@
 
 <script src="{{  asset('assets/js/scripts.js') }}"></script>
 
+@include('inc.footer')
 
 <!--Page only scripts-->
 @yield('footer')

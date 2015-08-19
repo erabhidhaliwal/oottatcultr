@@ -1,6 +1,9 @@
 @charset "utf-8";
 /* CSS Document */
 
+body{
+    font-family: 'Raleway', serif;
+}
 
 .header
 {
@@ -20,6 +23,10 @@
 .fixed-bg{
     background-color: rgba(35, 35, 35, 0.95);
 }
+.fixed-bg-small{
+    background-color: rgba(35, 35, 35, 0.95);
+    padding: 8px 0;
+}
 #myNavbar{
     padding-top: 20px;
 }
@@ -37,6 +44,21 @@
     padding-left: 30px;
 }
 
+.fixed-bg-small .logo
+{
+    color: #fff;
+    font-weight: 100;
+    font-size: 22px;
+    padding: 0px !important;
+    line-height: 60px;
+}
+.fixed-bg-small .logo img
+{
+    height: 55px;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
 .menu{
 
     margin:0px !important;
@@ -52,7 +74,6 @@
     color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: normal;
@@ -77,44 +98,51 @@
 }
 .main{
     position: relative;
-    top: -60px;
+    margin-bottom: 2em;
 }
-.backg
+.no-cover
 {
-    background-attachment:fixed;
-    background-color: #645862;
-    background-image:  url("/assets/images/bg2.jpg");
-    background-position: top center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    color: white;
-    cursor: default;
-    padding: 240px 0 180px;
-    text-align: center;
     width: 100%;
-    float: left;
-
+    position: relative;
+    height: 15vh;
+    color: #fdfdfd;
+    text-align: center;
+    overflow: hidden;
+    background-color: rgba(35, 35, 35, 0.95);
 }
-.backg2
+.cover
 {
-    background-attachment:fixed;
-    background-color: #645862;
-    background-image:  url("/assets/images/bg2.jpg");
-    background-position: top center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    color: white;
-    cursor: default;
-    padding: 190px 0 80px;
-    text-align: center;
     width: 100%;
-    float: left;
-
+    position: relative;
+    height: 55vh;
+    overflow: hidden;
+    color: #fdfdfd;
+    text-align: center;
+    overflow: hidden;
 }
-.backg h3{
+.cover img{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+.cover-title h2 {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    z-index: 11;
+    text-align: center;
     font-size: 3.5em;
     font-weight: 200;
     font-family: 'Raleway', serif;
+    color: #fdfdfd;
+    text-shadow: #222 2px 2px 2px;
+}
+.backg2
+{
+    height: 220px;
+    background-color: rgba(35, 35, 35, 0.95);
+
 }
 
 .section-head{
@@ -139,6 +167,10 @@
     color: #666666;
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
+}
+
+.form-section{
+    padding: 20px 10px 40px;
 }
 
 
@@ -245,6 +277,10 @@ a.thumbnail.active {
 {
     margin: 20px 0px;
 }
+.popular{
+    padding-bottom: 60px;
+    margin-bottom: 60px;
+}
 .popular .section-content .col-xs-6, .popular .section-content .col-md-3{
     padding-left:5px;
     padding-right:5px;
@@ -297,6 +333,198 @@ footer hr{
     font-size: 12px;
     padding-top: 20px;
 }
+
+
+
+/*****************
+    Modal FORMS
+*****************/
+.modal{
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    top: 0px;
+    background-color: rgba(2,2,2,.4);
+    width:100%;
+    height: 100%;
+    background: -webkit-linear-gradient(top right, rgba(2,2,2,.96) 0%, rgba(2,2,2,.8) 100%);
+    background: linear-gradient(to bottom left, rgba(2,2,2,.96) 0%, rgba(2,2,2,.8) 100%);
+}
+
+.form {
+    position: relative;
+    top: -60px;
+    background: rgba(19, 35, 47, 0.89);
+    padding: 40px;
+    max-width: 600px;
+    margin: 40px auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.1);
+    font-weight: 200;
+}
+
+.tab-group {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+}
+.tab-group:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.tab-group li a {
+    display: block;
+    text-decoration: none;
+    padding: 15px;
+    background: rgba(45, 45, 45, 1);
+    color: #a0b3b0;
+    font-size: 20px;
+    float: left;
+    width: 50%;
+    text-align: center;
+    cursor: pointer;
+    -webkit-transition: .5s ease;
+    transition: .5s ease;
+}
+.tab-group li a:hover {
+    background: #c9a700;
+    color: #ffffff;
+}
+.tab-group .active a {
+    background: #6b5e1d;
+    color: #ffffff;
+}
+
+.tab-content > div:last-child {
+    display: none;
+}
+
+h1 {
+    text-align: center;
+    color: #ffffff;
+    font-weight: 300;
+    margin: 0 0 40px;
+}
+
+label {
+    position: absolute;
+    -webkit-transform: translateY(6px);
+    -ms-transform: translateY(6px);
+    transform: translateY(6px);
+    left: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+    -webkit-backface-visibility: hidden;
+    pointer-events: none;
+    font-size: 22px;
+    font-weight: 200;
+}
+label .req {
+    margin: 2px;
+    color: #fed456;
+}
+
+label.active {
+    -webkit-transform: translateY(50px);
+    -ms-transform: translateY(50px);
+    transform: translateY(50px);
+    left: 2px;
+    font-size: 14px;
+}
+label.active .req {
+    opacity: 0;
+}
+
+label.highlight {
+    color: #ffffff;
+}
+
+input, textarea {
+    font-size: 22px;
+    font-weight: 200;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 5px 10px;
+    background: none;
+    background-image: none;
+    border: 1px solid #a0b3b0;
+    color: #ffffff;
+    border-radius: 0;
+    -webkit-transition: border-color .25s ease, box-shadow .25s ease;
+    transition: border-color .25s ease, box-shadow .25s ease;
+}
+input:focus, textarea:focus {
+    outline: 0;
+    border-color: #fed456;
+}
+
+textarea {
+    border: 2px solid #a0b3b0;
+    resize: vertical;
+}
+
+.field-wrap {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.top-row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.top-row > div {
+    float: left;
+    width: 48%;
+    margin-right: 4%;
+}
+.top-row > div:last-child {
+    margin: 0;
+}
+
+.button {
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    padding: 15px 0;
+    font-size: 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background: #b78b2d;
+    color: #ffffff;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-appearance: none;
+}
+.button:hover, .button:focus {
+    background: #c9a700;
+}
+
+.button-block {
+    display: block;
+    width: 100%;
+}
+
+.forgot {
+    margin-top: -20px;
+    text-align: right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media (min-width: 411px) and (max-width: 798px)
 {

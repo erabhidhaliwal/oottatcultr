@@ -18,10 +18,13 @@ Route::get('care', 'MainController@care');
 Route::get('tattoo-cultr', 'MainController@tattooCultr');
 
 
+Route::get('/', 'MainController@profile');
 
 // Authentication routes...
 Route::get('user/login', 'Auth\AuthController@getLogin');
 Route::post('user/login', 'Auth\AuthController@postLogin');
+Route::get('user/login/facebook', 'Auth\AuthController@redirectToFacebook');
+Route::get('user/facebook/callback', 'Auth\AuthController@handleFacebookCallback');
 Route::get('user/logout', 'Auth\AuthController@getLogout');
 
 // Registration routes...

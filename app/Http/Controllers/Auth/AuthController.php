@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Laravel\Socialite\Facades\Socialite;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -20,6 +21,12 @@ class AuthController extends Controller
     | a simple trait to add these behaviors. Why don't you explore it?
     |
     */
+
+    protected $loginPath = '/user/login';
+
+    protected $redirectPath = '/profile';
+
+
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
@@ -62,4 +69,29 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+
+
+    /**
+     * Redirect the user to the Facebook authentication page.
+     *
+     * @return Response
+     */
+    public function redirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    /**
+     * Obtain the user information from Facebook.
+     *
+     * @return Response
+     */
+    public function handleFacebookCallback()
+    {
+        $user = Socialite::driver('facebook')->user();
+
+        dd($user);
+    }
+
 }

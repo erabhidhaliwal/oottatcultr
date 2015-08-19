@@ -6,32 +6,7 @@
 @endsection
 
 @section('content')
-<div class="wrapper">
 
-    <header class="header">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle menu-button" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="glyphicon glyphicon-align-justify"></span>
-                    </button>
-                    <a class="navbar-brand logo" href="{!! url('/') !!}"><img src="{!! asset('assets/images/logo.png') !!}" alt=""></a>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <nav class="collapse navbar-collapse" id="myNavbar" role="navigation">
-                    <ul class="nav navbar-nav navbar-right menu">
-                        <li><a href="{!! url('artists') !!}" class="page-scroll active">ARTISTS</a></li>
-                        <li><a href="{!! url('studios') !!}" class="page-scroll">STUDIOS</a></li>
-                        <li><a href="{!! url('tattoo-cultr') !!}" class="page-scroll">TATTOO CULTR</a></li>
-                        <li><a href="{!! url('care') !!}" class="page-scroll">CARE</a></li>
-                        <li><a href="{!! url('user/login') !!}" class="page-scroll">LOGIN</a></li>
-                        <li><a href="{!! url('user/register') !!}" class="page-scroll">REGISTER</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
     <div class="container-fluid main" id="page-top">
         <div class="row">
             <div class="col-md-12 backg2">
@@ -40,79 +15,87 @@
         </div>
     </div>
 
-    <form class="form-horizontal" role="form" method="POST" action="{{ URL::to('/auth/login') }}">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <section>
+        <div class="form">
+            <ul class="tab-group">
+                <li class="tab"><a href="#signup">Sign Up</a></li>
+                <li class="tab active"><a href="#login">Log In</a></li>
+            </ul>
 
-        <div class="form-group">
-            <label class="col-md-4 control-label">E-Mail Address</label>
+            <div class="tab-content">
+                <div id="login">
+                    <h1>Welcome Back!</h1>
 
-            <div class="col-md-6">
-                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
-            </div>
-        </div>
+                    <form action="{!! url('user/login') !!}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-        <div class="form-group">
-            <label class="col-md-4 control-label">Password</label>
+                        <div class="field-wrap">
+                            <label>
+                                Email Address<span class="req">*</span>
+                            </label>
+                            <input type="email" name="email" required autocomplete="off"/>
+                        </div>
 
-            <div class="col-md-6">
-                <input type="password" class="form-control" name="password">
-            </div>
-        </div>
+                        <div class="field-wrap">
+                            <label>
+                                Password<span class="req">*</span>
+                            </label>
+                            <input type="password" name="password" required autocomplete="off"/>
+                        </div>
 
-        <div class="form-group">
-            <div class="col-md-6 col-md-offset-4">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="remember"> Remember Me
-                    </label>
+                        <p class="forgot"><a href="#">Forgot Password?</a></p>
+
+                        <button class="button button-block"/>Log In</button>
+
+                    </form>
+
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-6 col-md-offset-4">
-                <button type="submit" class="btn btn-primary" style="margin-right: 15px;">
-                    Login
-                </button>
+                <div id="signup">
+                    <h1>Sign Up for Free</h1>
 
-                <a href="{{ URL::to('/password/email') }}">Forgot Your Password?</a>
-            </div>
-        </div>
-    </form>
+                    <form action="{!! url('user/register') !!}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-    <br><br><br><br><br><br>
+                        <div class="field-wrap">
+                            <label>
+                                Name<span class="req">*</span>
+                            </label>
+                            <input type="text" name="name"  value="{{ old('name') }}" required autocomplete="off"/>
+                        </div>
 
-    <footer>
-        <div class="container text-center">
-            <div class="footer-links">
-                <ul class="list-inline">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About us</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Terms of use</a></li>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
+                        <div class="field-wrap">
+                            <label>
+                                Email Address<span class="req">*</span>
+                            </label>
+                            <input type="email" name="email" value="{{ old('email') }}" required autocomplete="off"/>
+                        </div>
 
-            <div class="social-links">
-                <h3 class="text-warning">JOIN US ON</h3>
-                <button type="button" class="btn btn-default btn-circle"><i class="fa fa-facebook"></i>
-                </button>
-                <button type="button" class="btn btn-default btn-circle"><i class="fa fa-twitter"></i>
-                </button>
-                <button type="button" class="btn btn-default btn-circle"><i class="fa fa-linkedin"></i>
-                </button>
-                <button type="button" class="btn btn-default btn-circle"><i class="fa fa-envelope-o"></i>
-                </button>
-            </div>
-            <hr>
-            <p class="copyright">&copy; 2014–2015 Tattoo Cultr. All rights reserved.</p>
-        </div>
-    </footer>
+                        <div class="field-wrap">
+                            <label>
+                                Password<span class="req">*</span>
+                            </label>
+                            <input type="password" name="password" required autocomplete="off"/>
+                        </div>
 
+                        <div class="field-wrap">
+                            <label>
+                                Confirm Password<span class="req">*</span>
+                            </label>
+                            <input type="password" name="password_confirmation" required autocomplete="off"/>
+                        </div>
 
-</div>
+                        <button type="submit" class="button button-block"/>Get Started</button>
+
+                    </form>
+
+                </div>
+
+            </div><!-- tab-content -->
+
+        </div> <!-- /form -->
+    </section>
+
 @endsection
 
 @section('footer')

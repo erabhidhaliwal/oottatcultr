@@ -28,7 +28,7 @@ class MainController extends Controller
     public function artists()
     {
 
-        return view('pages.home', []);
+        return view('pages.artists', []);
     }
 
     /**
@@ -39,7 +39,7 @@ class MainController extends Controller
     public function tattoos()
     {
 
-        return view('pages.home', []);
+        return view('pages.tattoos', []);
     }
 
     /**
@@ -50,7 +50,7 @@ class MainController extends Controller
     public function studios()
     {
 
-        return view('pages.home', []);
+        return view('pages.studios', []);
     }
 
     /**
@@ -70,6 +70,17 @@ class MainController extends Controller
      * @return View
      */
     public function tattooCultr()
+    {
+
+        return view('pages.home', []);
+    }
+
+    /**
+     * Display User Profile Page
+     *
+     * @return View
+     */
+    public function profile()
     {
 
         return view('pages.home', []);
