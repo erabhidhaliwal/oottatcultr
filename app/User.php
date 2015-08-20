@@ -24,7 +24,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'social', 'avatar'];
+    protected $fillable = ['name', 'email', 'password', 'social', 'contact', 'avatar'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -32,4 +32,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+
+
+
+    /**
+     * check if user profile has been completed
+     *
+     * @return boolean
+     */
+    public function isProfileComplete(){
+        return $this->profileComplete;
+    }
+
 }

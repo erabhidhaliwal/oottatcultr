@@ -17,9 +17,15 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('avatar')->nullable();
             $table->string('email')->unique();
+            $table->string('contact')->nullable();
             $table->string('password', 60);
+            $table->string('city', 111)->nullable();
+            $table->string('country', 111)->nullable();
             $table->boolean('social');
             $table->boolean('verified');
+            $table->boolean('profileComplete');
+            $table->boolean('active');
+            $table->enum('type', ['studio', 'artist', 'member', 'none'])->default('none');
             $table->rememberToken();
             $table->timestamps();
         });

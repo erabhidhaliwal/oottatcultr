@@ -17,8 +17,19 @@ Route::get('studios', 'MainController@studios');
 Route::get('care', 'MainController@care');
 Route::get('tattoo-cultr', 'MainController@tattooCultr');
 
+Route::group(['middleware' => ['auth', 'checkProfileCompletion']], function () {
+    Route::get('profile', 'MainController@profile');
+});
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('complete-profile', 'ProfileController@completeProfile');
+    Route::get('complete-profile-member', 'ProfileController@completeProfileMember');
+    Route::get('complete-profile-artist', 'ProfileController@completeProfileArtist');
+    Route::get('complete-profile-studio', 'ProfileController@completeProfileStudio');
 
-Route::get('/', 'MainController@profile');
+    Route::post('complete-profile-member', 'ProfileController@completeProfileMemberSave');
+    Route::post('complete-profile-artist', 'ProfileController@completeProfileArtistSave');
+    Route::post('complete-profile-studio', 'ProfileController@completeProfileStudioSave');
+});
 
 // Authentication routes...
 Route::get('user/login', 'Auth\AuthController@getLogin');

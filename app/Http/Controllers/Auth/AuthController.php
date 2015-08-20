@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -66,6 +67,7 @@ class AuthController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'contact' => $data['contact'],
             'password' => bcrypt($data['password']),
         ]);
     }
@@ -91,7 +93,28 @@ class AuthController extends Controller
     {
         $user = Socialite::driver('facebook')->user();
 
-        dd($user);
+        //dd($user);
+
+        if(User::where('email', $user->email)->where('social', true)->count()){
+            //dd($user);
+            Auth::login(User::where('email', '=', $user->email)->first());
+            return redirect('profile');
+        }
+        else{
+            echo "auth no attempt matched";
+            $row = new User;
+            $row->email = $user->email;
+            $row->avatar = $user->avatar;
+            $row->name = $user->name;
+            $row->social = true;
+            $row->password = bcrypt(str_random(40));
+            if($row->save()){
+                return redirect('profile');
+            }
+            else{
+                return redirect('profile')->with('error', 'Error in Signing up. Please try again later..');
+            }
+        }
     }
 
 }

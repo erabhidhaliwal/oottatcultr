@@ -19,47 +19,41 @@ if($(window).width() > 480)
 else{
 	$("header").addClass("fixed-bg-small");
 }
-//AJAX FORM
-$('.form').find('input, textarea').on('keyup blur focus', function (e) {
 
-	var $this = $(this),
-		label = $this.prev('label');
 
-	if (e.type === 'keyup') {
-		if ($this.val() === '') {
-			label.removeClass('active highlight');
-		} else {
-			label.addClass('active highlight');
-		}
-	} else if (e.type === 'blur') {
-		if( $this.val() === '' ) {
-			label.removeClass('active highlight');
-		} else {
-			label.removeClass('highlight');
-		}
-	} else if (e.type === 'focus') {
 
-		if( $this.val() === '' ) {
-			label.removeClass('highlight');
-		}
-		else if( $this.val() !== '' ) {
-			label.addClass('highlight');
-		}
+//Cutom Modal
+
+$(function() {
+	$('.close-modal').bind('click', function(event) {
+		$(".modal").hide();
+	});
+
+	$('.login-btn').bind('click', function(event) {
+		event.preventDefault();
+		$('#modal-content').html($("#login-form").html());
+		$(".modal").show();
+	});
+
+	$('.register-btn').bind('click', function(event) {
+		event.preventDefault();
+		$('#modal-content').html($("#register-form").html());
+		$(".modal").show();
+	});
+
+	$('#forget-pass-btn').bind('click', function(event) {
+		console.log("foget haan??");
+
+	});
+
+	if(window.location.hash == "#login") {
+		event.preventDefault();
+		$('#modal-content').html($("#login-form").html());
+		$(".modal").show();
 	}
-
-});
-
-$('.tab a').on('click', function (e) {
-
-	e.preventDefault();
-
-	$(this).parent().addClass('active');
-	$(this).parent().siblings().removeClass('active');
-
-	target = $(this).attr('href');
-
-	$('.tab-content > div').not(target).hide();
-
-	$(target).fadeIn(600);
-
+	if(window.location.hash == "#register") {
+		event.preventDefault();
+		$('#modal-content').html($("#register-form").html());
+		$(".modal").show();
+	}
 });

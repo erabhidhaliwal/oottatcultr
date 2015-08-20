@@ -37,14 +37,13 @@
 
 @yield('content')
 
+@include('inc.footer')
+
 {{--JAVASCRIPTS--}}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="{{  asset('assets/js/jquery.js') }}"></script>
 <script src="{{  asset('assets/js/bootstrap.js') }}"></script>
-<script src="{{  asset('assets/js/lightbox.min.js') }}"></script>
 
 <script src="{{  asset('assets/js/scripts.js') }}"></script>
-
-@include('inc.footer')
 
 <!--Page only scripts-->
 @yield('footer')

@@ -22,7 +22,8 @@
                             <li><a href="{!! url('profile') !!}" class="page-scroll">PROFILE</a></li>
                             <li><a href="{!! url('user/logout') !!}" class="page-scroll">LOGOUT</a></li>
                         @else
-                            <li><a href="{!! url('user/login') !!}" class="page-scroll">LOGIN</a></li>
+                            <li><a href="#" class="login-btn page-scroll">LOGIN</a></li>
+                            <li><a href="#" class="register-btn page-scroll">REGISTER</a></li>
                         @endif
                     </ul>
                 </nav>

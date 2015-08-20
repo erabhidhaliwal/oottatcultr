@@ -34,8 +34,7 @@
         </header>
         <div class="container-fluid main" id="page-top">
             <div class="row">
-                <div class="col-md-12 backg2">
-                    <h3>Register</h3>
+                <div class="no-cover">
                 </div>
             </div>
         </div>
