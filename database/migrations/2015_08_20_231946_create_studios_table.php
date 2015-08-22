@@ -16,6 +16,8 @@ class CreateStudiosTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('contact', 22)->nullable();
+            $table->string('cover')->nullable();
+            $table->string('address');
             $table->string('city', 111);
             $table->string('country', 111);
             $table->string('latitude', 22);

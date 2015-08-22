@@ -19,6 +19,11 @@ Route::get('tattoo-cultr', 'MainController@tattooCultr');
 
 Route::group(['middleware' => ['auth', 'checkProfileCompletion']], function () {
     Route::get('profile', 'MainController@profile');
+    Route::get('profile/tattoos', 'ProfileController@tattoos');
+    Route::get('profile/studios', 'ProfileController@studios');
+    Route::get('profile/followers', 'ProfileController@followers');
+    Route::get('profile/following', 'ProfileController@following');
+    Route::get('profile/edit', 'ProfileController@edit');
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('complete-profile', 'ProfileController@completeProfile');

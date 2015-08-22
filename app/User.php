@@ -45,4 +45,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->profileComplete;
     }
 
+
+    /**
+     * Get the tattoos uoloaded by the user.
+     */
+    public function tattoos()
+    {
+        return $this->hasMany('App\Tattoo');
+    }
+
 }

@@ -35,8 +35,8 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
     'facebook' => [
-        'client_id' => '1145303145485112',
-        'client_secret' => 'f36bc4985f7a07744b08ae7db8f444ac',
+        'client_id' => '666558736777317',
+        'client_secret' => 'c901749014348772ed784d8a93161fdc',
         'redirect' => 'http://tattoocultr.app/user/facebook/callback',
     ],
 

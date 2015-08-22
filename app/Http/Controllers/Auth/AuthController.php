@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -64,12 +65,28 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'contact' => $data['contact'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $user =  User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'contact' => $data['contact'],
+                    'password' => bcrypt($data['password']),
+                ]);
+
+        //do your role stuffs here
+
+        //send verification mail to user
+        //--------------------------------------------------------------------------------------------------------------
+        //$data['verification_code']  = $user->verification_code;
+
+        Mail::send('emails.welcome', $data, function($message) use ($data)
+        {
+            $message->from('no-reply@tattoocultr.com', "Tattoo Cultr");
+            $message->subject("Welcome to Tattoo Cultr");
+            $message->to($data['email']);
+        });
+
+
+        return $user;
     }
 
 

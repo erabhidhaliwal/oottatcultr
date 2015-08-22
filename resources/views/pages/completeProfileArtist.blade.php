@@ -21,13 +21,19 @@
             <hr>
             <div class="row">
 
-                <form class="form-horizontal" role="form" method="post">
+                <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
                 <!-- left column -->
                 <div class="col-md-3">
                     <div class="text-center">
                         <img src="{!! $user->avatar or '//placehold.it/100' !!}" class="avatar img-circle" alt="avatar">
                         <h6>Upload profile photo</h6>
                         <input type="file" name="avatar" class="form-control">
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        <img src="{!! $artist->cover or '//placehold.it/100' !!}" class="" alt="cover">
+                        <h6>Upload Cover photo</h6>
+                        <input type="file" name="cover" class="form-control">
                     </div>
                 </div>
 
@@ -97,11 +103,9 @@
                                         <br>
                                         <select id="studios" name="studio" class="form-control">
                                             <option value="0">Select Studio</option>
-                                            <option value="1">Studio 1</option>
-                                            <option value="2">Studio 2</option>
-                                            <option value="3">Studio 3</option>
-                                            <option value="4">Studio 4</option>
-                                            <option value="5">Studio 5</option>
+                                            @foreach($studios as $studio)
+                                                <option value="{!! $studio->id !!}">{!! $studio->name !!}</option>
+                                            @endforeach
                                         </select>
                                         <br>
                                     </div>
@@ -112,6 +116,12 @@
                                             <label class="control-label sr-only">Studio Name:</label>
                                             <div class="col-lg-12">
                                                 <input class="form-control" type="text" name="studioName" value="{!! old('studioName') !!}" placeholder="Studio name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label sr-only">Studio Contact No:</label>
+                                            <div class="col-lg-12">
+                                                <input class="form-control" type="text" name="studioContact" value="{!! old('studioContact') !!}" placeholder="Contact Number">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -151,9 +161,8 @@
                                 {{--<input type="reset" class="btn btn-default" value="Cancel">--}}
                             </div>
                         </div>
-                    </form>
-                </div>
-
+                    </div>
+                </form>
             </div>
         </div>
         <hr>

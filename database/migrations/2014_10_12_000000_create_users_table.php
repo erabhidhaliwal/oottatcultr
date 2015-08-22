@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->boolean('profileComplete');
             $table->boolean('active');
             $table->enum('type', ['studio', 'artist', 'member', 'none'])->default('none');
+            $table->integer('views');
             $table->rememberToken();
             $table->timestamps();
         });

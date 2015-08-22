@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Artist;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller
 {
@@ -82,8 +84,23 @@ class MainController extends Controller
      */
     public function profile()
     {
+        $user = Auth::user();
 
-        return view('pages.home', []);
+
+        if(!$user->social){
+            $user->avatar = url('uploads/images/small/' . $user->avatar);
+        }
+
+        //if user is artist, load artist profile view
+        if($user->type == 'artist') {
+            $artist = Artist::where('user_id', $user->id)->first();
+            $artist->cover = url('uploads/images/large/' . $artist->cover);
+
+            return view('pages.profile.artist', ['user' => $user, 'artist' => $artist]);
+        }
+
+        return view('pages.profile.member', ['user'=>$user]);
+
     }
 
 

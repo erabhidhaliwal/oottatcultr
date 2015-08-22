@@ -20,12 +20,16 @@
             <h2><span class="text-danger">{!! $user->name !!}</span></h2>
             <hr>
             <div class="row">
+
+                <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+                    {!! csrf_field() !!}
+
                 <!-- left column -->
                 <div class="col-md-3">
                     <div class="text-center">
                         <img src="{!! $user->avatar or '//placehold.it/100' !!}" class="avatar img-circle" alt="avatar">
                         <h6>Upload profile photo</h6>
-                        <input type="file" class="form-control">
+                        <input type="file" name="avatar" class="form-control">
                     </div>
                 </div>
 
@@ -37,9 +41,6 @@
                             {!! $error !!}
                         </div>
                     @endforeach
-
-                    <form class="form-horizontal" role="form" method="post">
-                        {!! csrf_field() !!}
 
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Name:</label>
@@ -74,13 +75,13 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label"></label>
                             <div class="col-md-8">
-                                <input type="button" class="btn btn-primary" value="Save Changes">
+                                <input type="submit" class="btn btn-primary" value="Save Changes">
                                 <span></span>
                                 {{--<input type="reset" class="btn btn-default" value="Cancel">--}}
                             </div>
                         </div>
-                    </form>
                 </div>
+                </form>
             </div>
         </div>
         <hr>

@@ -122,13 +122,15 @@ body{
 }
 .cover img{
     position: absolute;
-    width: 100%;
+    min-height: 54vh;
+    min-width: 100%;
     top: 0;
     left: 0;
+
 }
 .cover-title h2 {
     position: absolute;
-    top: 50%;
+    top: 42%;
     width: 100%;
     z-index: 11;
     text-align: center;
@@ -143,6 +145,19 @@ body{
     height: 220px;
     background-color: rgba(35, 35, 35, 0.95);
 
+}
+.cover-actions{
+    position: absolute;
+    top: 41vh;
+    z-index: 11;
+    text-align: center;
+    width: 100%;
+}
+.cover-actions .btn, .member-actions .btn{
+    margin-bottom: 6px;
+}
+.image-actions .by{
+    padding: 10px;
 }
 
 .section-head{
@@ -637,9 +652,18 @@ opacity:0.9;
 
 
 
+.image-actions{
+    position: relative;
+    top: -12px;
+}
+.image-actions .by{
+    margin-top: 2px;
+    padding: 4px;
+}
 
-
-
+.text-light-black{
+    color: #666;
+}
 
 
 
