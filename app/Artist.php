@@ -8,13 +8,20 @@ class Artist extends Model
 {
     //
 
+    /**
+     * Get the User details for the Artist.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 
     /**
      * The studios that belong to the artist.
      */
     public function studios()
     {
-        return $this->belongsToMany('App\Studio');
+        return $this->belongsToMany('App\Studio')->withPivot('approved');
     }
 
     /**
@@ -24,5 +31,7 @@ class Artist extends Model
     {
         return $this->hasMany('App\Tattoo');
     }
+
+
 
 }

@@ -19,7 +19,7 @@ class CreateTattoosTable extends Migration
             $table->string('description')->nullable();
             $table->integer('artist_id')->unsigned()->index(); // artist who's tagged with tattoo
             $table->integer('user_id')->unsigned()->index(); // user who ve uploaded this
-
+            $table->boolean('approved');
             $table->timestamps();
         });
     }

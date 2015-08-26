@@ -24,7 +24,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'social', 'contact', 'avatar'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'password', 'social', 'contact', 'avatar'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -52,6 +52,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function tattoos()
     {
         return $this->hasMany('App\Tattoo');
+    }
+
+    /**
+     * Get the followers of the user.
+     */
+    public function follows()
+    {
+        return $this->hasMany('App\Follow');
     }
 
 }

@@ -40,7 +40,7 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail">
                             <a href="#">
-                                <img src="{!! asset('assets/images/artist2.jpg') !!}" alt="...">
+                                <img src="{!! asset('assets/images/artist8.jpg') !!}" alt="...">
                             </a>
                             <div class="caption">
                                 <p class="text-warning">Andie Rogers, <span class="text-light-black"> Canada </span></p>
@@ -50,7 +50,7 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail">
                             <a href="#">
-                                <img src="{!! asset('assets/images/artist3.jpg') !!}" alt="...">
+                                <img src="{!! asset('assets/images/artist9.jpg') !!}" alt="...">
                             </a>
                             <div class="caption">
                                 <p class="text-warning">Andie Rogers, <span class="text-light-black"> Canada </span></p>
@@ -60,7 +60,7 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail">
                             <a href="#">
-                                <img src="{!! asset('assets/images/artist4.jpg') !!}" alt="...">
+                                <img src="{!! asset('assets/images/artist8.jpg') !!}" alt="...">
                             </a>
                             <div class="caption">
                                 <p class="text-warning">Andie Rogers, <span class="text-light-black"> Canada </span></p>
@@ -70,7 +70,7 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail">
                             <a href="#">
-                                <img src="{!! asset('assets/images/artist5.jpg') !!}" alt="...">
+                                <img src="{!! asset('assets/images/artist7.jpg') !!}" alt="...">
                             </a>
                             <div class="caption">
                                 <p class="text-warning">Andie Rogers, <span class="text-light-black"> Canada </span></p>
@@ -81,7 +81,7 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail">
                             <a href="#">
-                                <img src="{!! asset('assets/images/artist2.jpg') !!}" alt="...">
+                                <img src="{!! asset('assets/images/artist6.jpg') !!}" alt="...">
                             </a>
                             <div class="caption">
                                 <p class="text-warning">Andie Rogers, <span class="text-light-black"> Canada </span></p>
@@ -91,7 +91,7 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail">
                             <a href="#">
-                                <img src="{!! asset('assets/images/artist3.jpg') !!}" alt="...">
+                                <img src="{!! asset('assets/images/artist5.jpg') !!}" alt="...">
                             </a>
                             <div class="caption">
                                 <p class="text-warning">Andie Rogers, <span class="text-light-black"> Canada </span></p>
@@ -111,7 +111,7 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail">
                             <a href="#">
-                                <img src="{!! asset('assets/images/artist5.jpg') !!}" alt="...">
+                                <img src="{!! asset('assets/images/artist1.jpg') !!}" alt="...">
                             </a>
                             <div class="caption">
                                 <p class="text-warning">Andie Rogers, <span class="text-light-black"> Canada </span></p>

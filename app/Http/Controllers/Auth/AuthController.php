@@ -24,7 +24,7 @@ class AuthController extends Controller
     |
     */
 
-    protected $loginPath = '/user/login';
+    protected $loginPath = '/#login';
 
     protected $redirectPath = '/profile';
 
@@ -51,7 +51,7 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'firstname' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
         ]);
@@ -66,7 +66,8 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         $user =  User::create([
-                    'name' => $data['name'],
+                    'firstname' => $data['firstname'],
+                    'lastname' => $data['lastname'],
                     'email' => $data['email'],
                     'contact' => $data['contact'],
                     'password' => bcrypt($data['password']),
@@ -122,7 +123,8 @@ class AuthController extends Controller
             $row = new User;
             $row->email = $user->email;
             $row->avatar = $user->avatar;
-            $row->name = $user->name;
+            $row->firstname = $user->user['first_name'];
+            $row->lastname = $user->user['last_name'];
             $row->social = true;
             $row->password = bcrypt(str_random(40));
             if($row->save()){

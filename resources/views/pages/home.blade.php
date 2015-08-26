@@ -149,62 +149,62 @@
             <div class="section-content secton-hr text-center">
                 <div class="row">
                     <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
+                        <a href="{!! asset('assets/images/tattoo2.jpeg') !!}" data-lightbox="image-1" data-title="My caption" class="thumbnail">
                             <img src="{!! asset('assets/images/tattoo2.jpeg') !!}" alt="...">
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
+                        <a href="{!! asset('assets/images/tattoo1.jpg') !!}" data-lightbox="image-1" data-title="My caption" class="thumbnail">
                             <img src="{!! asset('assets/images/tattoo1.jpg') !!}" alt="...">
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
+                        <a href="{!! asset('assets/images/tattoo3.jpg') !!}" data-lightbox="image-1" data-title="My caption" class="thumbnail">
                             <img src="{!! asset('assets/images/tattoo3.jpg') !!}" alt="...">
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
+                        <a href="{!! asset('assets/images/tattoo4.jpg') !!}" data-lightbox="image-1" data-title="My caption" class="thumbnail">
                             <img src="{!! asset('assets/images/tattoo4.jpg') !!}" alt="...">
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
+                        <a href="{!! asset('assets/images/tattoo5.jpg') !!}" data-lightbox="image-1" data-title="My caption" class="thumbnail">
                             <img src="{!! asset('assets/images/tattoo5.jpg') !!}" alt="...">
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
+                        <a href="{!! asset('assets/images/tattoo6.jpg') !!}" data-lightbox="image-1" data-title="My caption" class="thumbnail">
                             <img src="{!! asset('assets/images/tattoo6.jpg') !!}" alt="...">
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
+                        <a href="{!! asset('assets/images/tattoo7.png') !!}" data-lightbox="image-1" data-title="My caption" class="thumbnail">
                             <img src="{!! asset('assets/images/tattoo7.png') !!}" alt="...">
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
+                        <a href="{!! asset('assets/images/tattoo8.jpg') !!}" data-lightbox="image-1" data-title="My caption" class="thumbnail">
                             <img src="{!! asset('assets/images/tattoo8.jpg') !!}" alt="...">
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
+                        <a href="{!! asset('assets/images/tattoo9.jpg') !!}" data-lightbox="image-1" data-title="My caption" class="thumbnail">
                             <img src="{!! asset('assets/images/tattoo9.jpg') !!}" alt="...">
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
+                        <a href="{!! asset('assets/images/tattoo10.jpg') !!}" data-lightbox="image-1" data-title="My caption" class="thumbnail">
                             <img src="{!! asset('assets/images/tattoo10.jpg') !!}" alt="...">
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
+                        <a href="{!! asset('assets/images/tattoo11.jpg') !!}" data-lightbox="image-1" data-title="My caption" class="thumbnail">
                             <img src="{!! asset('assets/images/tattoo11.jpg') !!}" alt="...">
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
+                        <a href="{!! asset('assets/images/tattoo112.jpg') !!}" data-lightbox="image-1" data-title="My caption" class="thumbnail">
                             <img src="{!! asset('assets/images/tattoo112.jpg') !!}" alt="...">
                         </a>
                     </div>

@@ -58,26 +58,26 @@
         </div>
     </section>
 
-    <section id="artist-of-the-month">
-        <div class="container">
-            <div class="row">
-                <br>
-                <div class="col-sm-4 col-sm-push-4">
-                    <a href="#">
-                        <div class="thumbnail">
-                            <img src="{!! asset('assets/images/artist22.png') !!}" alt="...">
-                            <div class="caption text-center">
-                                <h3>Artist of the month <span class="text-primary">(July)</span></h3>
-                                <p class="text-warning">Manjeet Singh</p>
-                                <p><strong>Manjeet Tattoos</strong> </p>
-                                <p>New Delhi, India</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+    {{--<section id="artist-of-the-month">--}}
+        {{--<div class="container">--}}
+            {{--<div class="row">--}}
+                {{--<br>--}}
+                {{--<div class="col-sm-4 col-sm-push-4">--}}
+                    {{--<a href="#">--}}
+                        {{--<div class="thumbnail">--}}
+                            {{--<img src="{!! asset('assets/images/artist22.png') !!}" alt="...">--}}
+                            {{--<div class="caption text-center">--}}
+                                {{--<h3>Artist of the Week <span class="text-primary">(July)</span></h3>--}}
+                                {{--<p class="text-warning">Manjeet Singh</p>--}}
+                                {{--<p><strong>Manjeet Tattoos</strong> </p>--}}
+                                {{--<p>New Delhi, India</p>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</section>--}}
 
     <section>
         <div class="container">
@@ -87,94 +87,23 @@
                 <div class="row">
                     <h2 class="section-head text-center">Browse <span class="text-danger">Artists</span></h2>
 
-                    <div class="col-sm-6 col-md-3">
-                        <a href="#">
-                            <div class="thumbnail">
-                                <img src="{!! asset('assets/images/artist9.jpg') !!}" alt="...">
-                                <div class="caption">
-                                    <p class="text-warning">Andie Rogers</p>
-                                    <p>Canada</p>
+                    @foreach($artists as $artist)
+                        <div class="col-sm-6 col-md-3">
+                            <a href="{!! url('artist/' . $artist->id) !!}">
+                                <div class="thumbnail">
+                                    @if (filter_var($artist->user->avatar, FILTER_VALIDATE_URL) === FALSE)
+                                        <img src="{!! url('uploads/images/thumbnail/' . $artist->user->avatar) !!}" alt="{!! $artist->user->firstname !!}">
+                                    @else
+                                        <img src="{!! $artist->user->avatar !!}" alt="{!! $artist->user->firstname !!}">
+                                    @endif
+                                    <div class="caption">
+                                        <p class="text-warning">{!! $artist->user->firstname !!} {!! $artist->user->lastname !!}</p>
+                                        <p>{!! $artist->user->city !!}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <a href="#">
-                            <div class="thumbnail">
-                                <img src="{!! asset('assets/images/artist2.jpg') !!}" alt="...">
-                                <div class="caption">
-                                    <p class="text-warning">Andie Rogers</p>
-                                    <p>Canada</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <a href="#">
-                            <div class="thumbnail">
-                                <img src="{!! asset('assets/images/artist3.jpg') !!}" alt="...">
-                                <div class="caption">
-                                    <p class="text-warning">Andie Rogers</p>
-                                    <p>Canada</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <a href="#">
-                            <div class="thumbnail">
-                                <img src="{!! asset('assets/images/artist4.jpg') !!}" alt="...">
-                                <div class="caption">
-                                    <p class="text-warning">Andie Rogers</p>
-                                    <p>Canada</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <a href="#">
-                            <div class="thumbnail">
-                                <img src="{!! asset('assets/images/artist5.jpg') !!}" alt="...">
-                                <div class="caption">
-                                    <p class="text-warning">Andie Rogers</p>
-                                    <p>Canada</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <a href="#">
-                            <div class="thumbnail">
-                                <img src="{!! asset('assets/images/artist6.jpg') !!}" alt="...">
-                                <div class="caption">
-                                    <p class="text-warning">Andie Rogers</p>
-                                    <p>Canada</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <a href="#">
-                            <div class="thumbnail">
-                                <img src="{!! asset('assets/images/artist7.jpg') !!}" alt="...">
-                                <div class="caption">
-                                    <p class="text-warning">Andie Rogers</p>
-                                    <p>Canada</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <a href="#">
-                            <div class="thumbnail">
-                                <img src="{!! asset('assets/images/artist8.jpg') !!}" alt="...">
-                                <div class="caption">
-                                    <p class="text-warning">Andie Rogers</p>
-                                    <p>Canada</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
                 {{--<div class="row">--}}
                     {{--<button class="btn btn-default btn-lg">VIEW MORE</button>--}}

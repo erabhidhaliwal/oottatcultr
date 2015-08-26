@@ -12,7 +12,7 @@
     <meta name="keywords" content="">
 
     <!-- Custom FONTS -->
-    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,700,400italic,700italic&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,700,400italic,700italic&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
     <link href='//fonts.googleapis.com/css?family=Raleway:400,300,200,700&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
     <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700,400italic' rel='stylesheet' type='text/css'>
 
@@ -32,16 +32,22 @@
 
 {{--Show Errors--}}
 @foreach ($errors->all() as $error)
-    <?php var_dump($error); ?> <br><hr>
 @endforeach
 
 @yield('content')
 
 @include('inc.footer')
 
+@if (session('success'))
+    <script>
+        alert('{!! session('success') !!}');
+    </script>
+@endif
+
 {{--JAVASCRIPTS--}}
 <script src="{{  asset('assets/js/jquery.js') }}"></script>
 <script src="{{  asset('assets/js/bootstrap.js') }}"></script>
+<script src="{{  asset('assets/js/lightbox.js') }}"></script>
 
 <script src="{{  asset('assets/js/scripts.js') }}"></script>
 

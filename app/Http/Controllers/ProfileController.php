@@ -173,8 +173,8 @@ class ProfileController extends Controller
 
             // reset image (return to backup state)
             $img->reset();
-            $img->fit(120); //100*100
-            $img->save('uploads/images/small/'.$tmpFileName);
+            $img->fit(360, 144); //360*144
+            $img->save('uploads/images/thumbnail/'.$tmpFileName);
 
             //save image to DB
             $artist->cover = $tmpFileName;
@@ -305,6 +305,33 @@ class ProfileController extends Controller
     }
 
     /**
+     * Display the user add tattoos page
+     *
+     * @return View
+     */
+    public function tattoosAdd()
+    {
+        $user = Auth::user();
+
+        if(!$user->social){
+            $user->avatar = url('uploads/images/small/' . $user->avatar);
+        }
+
+        $artists = Artist::all();
+
+        //if user is artist, load artist profile view
+        if($user->type == 'artist') {
+            $artist = Artist::where('user_id', $user->id)->first();
+            $artist->cover = url('uploads/images/large/' . $artist->cover);
+
+            return view('pages.profile.artist.addtattoo', ['user' => $user, 'artist' => $artist, 'artists'=>$artists]);
+        }
+
+        return view('pages.profile.member.addtattoo', ['user'=>$user, 'artists'=>$artists]);
+    }
+
+
+    /**
      * Display the user tattoos page
      *
      * @return View
@@ -399,6 +426,55 @@ class ProfileController extends Controller
         }
         //member can't have followers. so redirect to profile
         return view('pages.profile.member.edit', ['user' => $user]);
+    }
+
+
+    /**
+     * Update user profile
+     *
+     * @return View
+     */
+    public function changeImg(Request $request)
+    {
+        $user = Auth::user();
+
+        if($request->hasFile('avatar')) {
+            //upload an image to the /img/tmp directory and return the filepath.
+            $file = $request->file('avatar');
+            $tmpFilePath = '/uploads/images/original/';
+            $tmpFileName = 'profile-' . time() . '-' . $file->getClientOriginalName();
+
+            //save original file
+            $file = $file->move(public_path() . $tmpFilePath, $tmpFileName);
+            $path = $tmpFilePath . $tmpFileName;
+
+            //edit image
+            $img = \Image::make($file);
+            $img->backup();
+
+            //$img->fit(1200, 480);
+            //$img->save('uploads/images/large/'.$tmpFileName);
+
+            // reset image (return to backup state)
+            $img->reset();
+            $img->fit(360); //240*240
+            $img->save('uploads/images/thumbnail/'.$tmpFileName);
+
+            // reset image (return to backup state)
+            $img->reset();
+            $img->fit(120); //100*100
+            $img->save('uploads/images/small/'.$tmpFileName);
+
+            //save image to DB
+            $user->avatar = $tmpFileName;
+            $user->save();
+        }
+
+        if(!$user->social){
+            $user->avatar = url('uploads/images/small/' . $user->avatar);
+        }
+
+        return $user->avatar;
     }
 
 

@@ -2,12 +2,12 @@
     <div class="container text-center">
         <div class="footer-links">
             <ul class="list-inline">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About us</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Terms of use</a></li>
-                <li><a href="#">Privacy</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="{!! url('/') !!}">Home</a></li>
+                <li><a href="{!! url('about') !!}">About us</a></li>
+                <li><a href="{!! url('/') !!}">Blog</a></li>
+                <li><a href="{!! url('terms') !!}">Terms of use</a></li>
+                <li><a href="{!! url('privacy') !!}">Privacy</a></li>
+                <li><a href="{!! url('contact') !!}">Contact</a></li>
             </ul>
         </div>
 
@@ -17,7 +17,7 @@
             </button>
             <button type="button" class="btn btn-default btn-circle"><i class="fa fa-twitter"></i>
             </button>
-            <button type="button" class="btn btn-default btn-circle"><i class="fa fa-linkedin"></i>
+            <button type="button" class="btn btn-default btn-circle"><i class="fa fa-pinterest"></i>
             </button>
             <button type="button" class="btn btn-default btn-circle"><i class="fa fa-envelope-o"></i>
             </button>
@@ -119,7 +119,13 @@
                     <form class="omb_loginForm" action="" autocomplete="off" method="POST">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="full name" required>
+                            <input type="text" class="form-control" name="firstname" value="{{ old('name') }}" placeholder="first name" required>
+                        </div>
+                        <span class="help-block"></span>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            <input type="text" class="form-control" name="lastname" value="{{ old('name') }}" placeholder="last name" required>
                         </div>
                         <span class="help-block"></span>
 

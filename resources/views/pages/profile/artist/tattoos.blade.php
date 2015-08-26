@@ -41,7 +41,7 @@
                 <div class="row">
                     @foreach($artist->tattoos->where('user_id', $user->id) as $tattoo)
                         <div class="col-xs-6 col-sm-4 col-md-3">
-                            <a href="#" class="thumbnail">
+                            <a href="{!! asset('uploads/images/original/' . $tattoo->url) !!}" data-lightbox="tattoos-me" data-title="{!! $tattoo->title !!}" class="thumbnail">
                                 <img src="{!! asset('uploads/images/thumbnail/' . $tattoo->url) !!}" alt="{!! $tattoo->title !!}">
                             </a>
                         </div>
@@ -54,25 +54,24 @@
                 {{--<button class="btn btn-default btn-lg">VIEW MORE</button>--}}
                 {{--</div>--}}
 
-                <br><br><br>
             </div>
+            <br><br><br>
 
         </div>
+
         <div class="container">
-
             <h2 class="section-head text-center">User's <span class="text-danger">Tattoos</span></h2>
-
             <div class="section-content text-center">
                 <div class="row">
-                    @foreach($artist->tattoos->where('user_id','<>', $user->id) as $tattoo)
+                    @foreach($artist->tattoos()->where('user_id','<>', $user->id)->get() as $tattoo)
                         <div class="col-xs-6 col-sm-4 col-md-3">
-                            <a href="#" class="thumbnail">
+                            <a href="{!! asset('uploads/images/original/' . $tattoo->url) !!}" data-lightbox="tattoos-user" data-title="{!! $tattoo->title !!}" class="thumbnail">
                                 <img src="{!! asset('uploads/images/thumbnail/' . $tattoo->url) !!}" alt="{!! $tattoo->title !!}">
                             </a>
                         </div>
                     @endforeach
 
-                    @if(!$artist->tattoos->where('user_id','<>', $user->id)->count())
+                    @if(!$artist->tattoos()->where('user_id','!=', $user->id)->count())
                         <h3 class="text-left">No Tatto by user!!</h3>
                     @endif
                 </div>

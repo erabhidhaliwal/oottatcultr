@@ -18,7 +18,7 @@ class CreateArtistsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('experience')->nullable();
             $table->string('cover')->nullable();
-
+            $table->text('bio')->nullable();
             $table->timestamps();
         });
     }

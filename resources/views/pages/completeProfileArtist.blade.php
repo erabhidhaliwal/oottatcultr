@@ -17,7 +17,7 @@
 
     <section>
         <div class="container">
-            <h2><span class="text-danger">{!! $user->name !!}</span></h2>
+            <h2><span class="text-danger">{!! $user->firstname !!} {!! $user->lastname !!}</span></h2>
             <hr>
             <div class="row">
 
@@ -51,7 +51,7 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Name:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" name="name" value="{!! $user->name !!}" readonly>
+                                <input class="form-control" type="text" name="name" value="{!! $user->firstname !!} {!! $user->lastname !!}" readonly>
                             </div>
                         </div>
                         <div class="form-group">

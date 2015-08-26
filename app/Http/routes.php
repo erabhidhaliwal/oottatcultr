@@ -14,17 +14,43 @@ Route::get('/', 'MainController@index');
 Route::get('artists', 'MainController@artists');
 Route::get('tattoos', 'MainController@tattoos');
 Route::get('studios', 'MainController@studios');
+Route::post('studios', 'MainController@studiosSearch');
 Route::get('care', 'MainController@care');
 Route::get('tattoo-cultr', 'MainController@tattooCultr');
+
+Route::get('artist/{id}', 'MainController@artist');
+Route::get('artist/{id}/studio', 'MainController@artistStudio');
+Route::get('studio/{id}', 'MainController@studio');
+
+Route::get('care', function () {
+    return view('pages.care');
+});
+Route::get('terms', function () {
+    return view('pages.terms');
+});
+Route::get('contact', function () {
+    return view('pages.contact');
+});
 
 Route::group(['middleware' => ['auth', 'checkProfileCompletion']], function () {
     Route::get('profile', 'MainController@profile');
     Route::get('profile/tattoos', 'ProfileController@tattoos');
+    Route::get('profile/tattoos/add', 'ProfileController@tattoosAdd');
     Route::get('profile/studios', 'ProfileController@studios');
     Route::get('profile/followers', 'ProfileController@followers');
     Route::get('profile/following', 'ProfileController@following');
     Route::get('profile/edit', 'ProfileController@edit');
+    Route::post('profile/changeImg', 'ProfileController@changeImg');
+
+    Route::post('tattoo/upload', 'MainController@uploadTattoo'); //upload tattoo to artist profile
+    Route::get('tattoo/approve/{id}', 'MainController@approveTattoo');
+    Route::get('tattoo/reject/{id}', 'MainController@rejectTattoo');
+
+
+    Route::get('follow/{id}', 'MainController@FollowArtist');
+    Route::get('unfollow/{id}', 'MainController@UnfollowArtist');
 });
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('complete-profile', 'ProfileController@completeProfile');
     Route::get('complete-profile-member', 'ProfileController@completeProfileMember');

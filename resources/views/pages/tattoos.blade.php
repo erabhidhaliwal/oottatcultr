@@ -63,66 +63,16 @@
 
             <div class="section-content secton-hr text-center">
                 <div class="row">
-                    <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
-                            <img src="{!! asset('assets/images/tattoo2.jpeg') !!}" alt="...">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
-                            <img src="{!! asset('assets/images/tattoo1.jpg') !!}" alt="...">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
-                            <img src="{!! asset('assets/images/tattoo3.jpg') !!}" alt="...">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
-                            <img src="{!! asset('assets/images/tattoo4.jpg') !!}" alt="...">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
-                            <img src="{!! asset('assets/images/tattoo5.jpg') !!}" alt="...">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
-                            <img src="{!! asset('assets/images/tattoo6.jpg') !!}" alt="...">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
-                            <img src="{!! asset('assets/images/tattoo7.png') !!}" alt="...">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
-                            <img src="{!! asset('assets/images/tattoo8.jpg') !!}" alt="...">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
-                            <img src="{!! asset('assets/images/tattoo9.jpg') !!}" alt="...">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
-                            <img src="{!! asset('assets/images/tattoo10.jpg') !!}" alt="...">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
-                            <img src="{!! asset('assets/images/tattoo11.jpg') !!}" alt="...">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-3">
-                        <a href="#" class="thumbnail">
-                            <img src="{!! asset('assets/images/tattoo112.jpg') !!}" alt="...">
-                        </a>
-                    </div>
+                    @foreach($tattoos as $tattoo)
+                        <div class="col-xs-6 col-sm-4 col-md-3">
+                            <a href="{!! asset('uploads/images/original/' . $tattoo->url) !!}" data-lightbox="tattoos-me" data-title="{!! $tattoo->title !!}" class="thumbnail">
+                                <img src="{!! asset('uploads/images/thumbnail/' . $tattoo->url) !!}" alt="{!! $tattoo->title !!}">
+                            </a>
+                        </div>
+                    @endforeach
+                    @if(!$tattoos->count())
+                        <h3 class="text-left"> No Tattoo !!</h3>
+                    @endif
                 </div>
                 <div class="row">
                     <button class="btn btn-default btn-lg">VIEW MORE</button>

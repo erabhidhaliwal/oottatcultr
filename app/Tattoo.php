@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tattoo extends Model
 {
-    //
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['title', 'url', 'artist_id', 'description', 'user_id'];
 
 
     /**
