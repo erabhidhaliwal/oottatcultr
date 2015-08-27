@@ -78,7 +78,7 @@
                 <label for="changetype-all">All</label>
             </div>
             <div id="map"></div>
-
+        </div>
     </section>
 
     <section class="artists">

@@ -20,16 +20,15 @@
 
     <section>
         <div class="container">
-            <h2 class="section-head text-center">Artist of the <span class="text-danger">month</span></h2>
             <div class="section-content secton-hr">
-                <div class="media">
-                    <div class="media-left">
+                <div class="row">
+                    <div class="col-sm-4">
                         <a href="#">
-                            <img class="media-object" src="{!! asset('assets/images/artist1.jpg') !!}" alt="...">
+                            <img class="img-responsive" src="{!! asset('assets/images/artist1.jpg') !!}" alt="...">
                         </a>
                     </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">Funky Monkey</h4>
+                    <div class="col-sm-8">
+                        <h3>Funky Monkey</h3>
                         <p>Hi, I am Raju Pandeya from Funky Monkey Tattoos and I am the artist of the month !</p>
                         <p>I started tattoo 15 years back when i joined Funky Monkey Tattoos in New Delhi, India
                             in 2002. We are one of the first tattoo studios in India.</p>

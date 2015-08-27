@@ -18,9 +18,12 @@ Route::post('studios', 'MainController@studiosSearch');
 Route::get('care', 'MainController@care');
 Route::get('tattoo-cultr', 'MainController@tattooCultr');
 
-Route::get('artist/{id}', 'MainController@artist');
+Route::get('artist/{id}', 'MainController@show');
 Route::get('artist/{id}/studio', 'MainController@artistStudio');
 Route::get('studio/{id}', 'MainController@studio');
+
+Route::get('member/{id}', 'MemberController@show');
+
 
 Route::get('care', function () {
     return view('pages.care');
@@ -34,7 +37,7 @@ Route::get('contact', function () {
 
 Route::group(['middleware' => ['auth', 'checkProfileCompletion']], function () {
     Route::get('profile', 'MainController@profile');
-    Route::get('profile/tattoos', 'ProfileController@tattoos');
+    Route::get('artist/update/location', 'ProfileController@tattoos');
     Route::get('profile/tattoos/add', 'ProfileController@tattoosAdd');
     Route::get('profile/studios', 'ProfileController@studios');
     Route::get('profile/followers', 'ProfileController@followers');
@@ -42,24 +45,22 @@ Route::group(['middleware' => ['auth', 'checkProfileCompletion']], function () {
     Route::get('profile/edit', 'ProfileController@edit');
     Route::post('profile/changeImg', 'ProfileController@changeImg');
 
-    Route::post('tattoo/upload', 'MainController@uploadTattoo'); //upload tattoo to artist profile
-    Route::get('tattoo/approve/{id}', 'MainController@approveTattoo');
-    Route::get('tattoo/reject/{id}', 'MainController@rejectTattoo');
+    Route::post('tattoo/upload', 'TattooController@uploadTattoo'); //upload tattoo to artist profile
+    Route::get('tattoo/approve/{id}', 'TattooController@approveTattoo');
+    Route::get('tattoo/reject/{id}', 'TattooController@rejectTattoo');
 
+    Route::get('follow/{id}', 'MainController@Follow');
+    Route::get('unfollow/{id}', 'MainController@Unfollow');
 
-    Route::get('follow/{id}', 'MainController@FollowArtist');
-    Route::get('unfollow/{id}', 'MainController@UnfollowArtist');
+    Route::post('artist/update/location', 'ArtistController@updateLocation');
+    Route::post('artist/update/cover', 'ArtistController@updateCover');
+    Route::post('artist/update/bio', 'ArtistController@updateBio');
+
 });
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('complete-profile', 'ProfileController@completeProfile');
-    Route::get('complete-profile-member', 'ProfileController@completeProfileMember');
-    Route::get('complete-profile-artist', 'ProfileController@completeProfileArtist');
-    Route::get('complete-profile-studio', 'ProfileController@completeProfileStudio');
-
-    Route::post('complete-profile-member', 'ProfileController@completeProfileMemberSave');
-    Route::post('complete-profile-artist', 'ProfileController@completeProfileArtistSave');
-    Route::post('complete-profile-studio', 'ProfileController@completeProfileStudioSave');
+    Route::post('complete-profile', 'ProfileController@completeProfileSave');
 });
 
 // Authentication routes...
@@ -67,7 +68,7 @@ Route::get('user/login', 'Auth\AuthController@getLogin');
 Route::post('user/login', 'Auth\AuthController@postLogin');
 Route::get('user/login/facebook', 'Auth\AuthController@redirectToFacebook');
 Route::get('user/facebook/callback', 'Auth\AuthController@handleFacebookCallback');
-Route::get('user/logout', 'Auth\AuthController@getLogout');
+Route::get('logout', 'Auth\AuthController@getLogout');
 
 // Registration routes...
 Route::get('user/register', 'Auth\AuthController@getRegister');

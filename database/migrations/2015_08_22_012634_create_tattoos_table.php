@@ -17,8 +17,8 @@ class CreateTattoosTable extends Migration
             $table->string('title')->nullable();
             $table->string('url');
             $table->string('description')->nullable();
-            $table->integer('artist_id')->unsigned()->index(); // artist who's tagged with tattoo
             $table->integer('user_id')->unsigned()->index(); // user who ve uploaded this
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->boolean('approved');
             $table->timestamps();
         });

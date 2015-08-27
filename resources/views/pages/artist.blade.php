@@ -6,6 +6,7 @@
     <link href="{{  asset('assets/css/dropzone.min.css') }}" rel="stylesheet">
     <link href="{{  asset('assets/plugins/slick/slick.css') }}" rel="stylesheet">
     <link href="{{  asset('assets/plugins/slick/slick-theme.css') }}" rel="stylesheet">
+
     <style>
         /* hides controls for dropzone.js */
         .single-dropzone .dz-image-preview, .single-dropzone .dz-file-preview {
@@ -14,6 +15,70 @@
 
         .slick-prev:before, .slick-next:before{
             color:rgba(22,22,22,.6);
+        }
+
+        #upload-cover-btn{
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            z-index: 999;
+
+        }
+
+        #map {
+            height: 320px;
+        }
+        .controls {
+            margin-top: 10px;
+            border: 1px solid transparent;
+            border-radius: 2px 0 0 2px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            height: 42px;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        #pac-input {
+            background-color: #fff;
+            font-size: 15px;
+            font-weight: 300;
+            padding: 20px 10px;
+            text-overflow: ellipsis;
+            width:99%;
+            margin-left: .5%;
+        }
+
+        #pac-input:focus {
+            border-color: #4d90fe;
+            width: 100%;
+            overflow: visible;
+            position: relative;
+        }
+
+
+        #type-selector {
+            color: #fff;
+            background-color: #4d90fe;
+            padding: 5px 11px 0px 11px;
+        }
+
+        #type-selector label {
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+        #artist-bio{
+            width: 100%;
+            min-height: 80px;
+            color: #000;
+            box-shadow: 0px 0px 2px rgba(111,111,111,.2);
+            padding: 4px;
+        }
+
+        .top-shift{
+            position: relative;
+            top: -38px;
         }
     </style>
 @endsection
@@ -25,13 +90,28 @@
             <div class="cover-title">
             </div>
             <div class="cover">
-                <img src="{!! $artist->cover !!}" alt="Home">
+                <img src="{!! $artist->cover !!}" alt="Cover">
+                @if($isArtistProfile)
+                    <a href="#" class="btn btn-default btn-sm" id="upload-cover-btn">Change Cover</a>
+                    <form action="{!! url('artist/update/cover') !!}" method="post" id="coverPicForm" enctype="multipart/form-data">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="file" name="cover" id="cover-btn" style="display: none;">
+                    </form>
+                @endif
             </div>
         </div>
     </div>
     <section>
         <div class="container">
-            <h2 class="section-head text-center">{!! $artist->user->firstname !!} <span class="text-danger">{!! $artist->user->lastname !!}</span></h2>
+            @if(Auth::check())
+                <div class="row">
+                    <div class="col-sm-3" style="height: 30px;">
+                        <h4 class="section-head text-center">{!! $artist->firstname !!} <span class="text-danger">{!! $artist->lastname !!}</span></h4>
+                    </div>
+                </div>
+            @else
+                <h2 class="section-head text-center">{!! $artist->firstname !!} <span class="text-danger">{!! $artist->lastname !!}</span></h2>
+            @endif
             <div class="section-content">
                 <div class="row">
                     <div class="col-sm-3 text-center">
@@ -46,13 +126,37 @@
                         @endif
                     </div>
                     <div class="col-sm-6">
-                        <p class="artist-bio">{!! $artist->bio !!}</p>
+                        @if($isArtistProfile)
+                            <div style="color:rgba(22,22,22,.3)" class="top-shift">
+                                CLICK TO EDIT
+                            </div>
+                            <div  contenteditable="true" class="artist-bio top-shift" id="artist-bio">
+                                {!! $artist->bio or "" !!}
+                            </div>
+                            <br>
+                            <button id="save-bio-btn" class="btn btn-default btn-sm">Save</button>
+                        @else
+                            <div>
+                                {!! $artist->bio !!}
+                            </div>
+                        @endif
                     </div>
                     <div class="col-sm-3 text-center">
-                        <div id="artist-map"></div><br>
-                        <a href="https://www.google.co.in/maps/place/Funky+Monkey+Tattoo/@28.47897,77.080774,17z" target="_blank" class="btn btn-default btn-sm">GET DIRECTIONS</a>
-                    </div>
+                        @if($artist->latitude && $artist->longitude)
+                            <div id="artist-map"></div><br>
+                            <a href="https://www.google.co.in/maps/place/@<?= $artist->latitude ?>,{!! $artist->longitude !!},18z" target="_blank" class="btn btn-default btn-sm">GET DIRECTIONS</a>
+                        @else
 
+                            <div class="search-box">
+                                <input id="pac-input" class="controls" type="text" placeholder="Add your Location">
+                            </div>
+                            <div id="type-selector" class="controls" style="display: none">
+                                <input type="radio" name="type" id="changetype-all" checked="checked">
+                                <label for="changetype-all">All</label>
+                            </div>
+                            <div id="artist-map"></div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,9 +168,9 @@
                 <div class="row text-center">
                     @if(Auth::check() && !$isArtistProfile)
                         @if(!$isFollowing)
-                            <a href="{!! url('follow/'. $artist->id) !!}" class="btn btn-custom btn-default" id="follow-btn"> Follow </a>
+                            <a href="{!! url('follow/'. $artist->user->id) !!}" class="btn btn-custom btn-default" id="follow-btn"> Follow </a>
                         @else
-                            <a href="{!! url('unfollow/'. $artist->id) !!}" class="btn btn-custom btn-default" id="follow-btn">Unfollow</a>
+                            <a href="{!! url('unfollow/'. $artist->user->id) !!}" class="btn btn-custom btn-default" id="follow-btn">Unfollow</a>
                         @endif
                     @endif
                     <a href="{!! url('artist/'. $artist->id . '/studio' ) !!}" class="btn btn-custom btn-default"> Studios </a>
@@ -224,7 +328,7 @@
     <section class="artists">
         <div class="container">
             <br>
-            <h2 class="section-head text-center">Tattoos by <span class="text-danger">{!! $artist->user->firstname !!}</span></h2>
+            <h2 class="section-head text-center">Tattoos by <span class="text-danger">{!! $artist->firstname !!}</span></h2>
 
             <div class="section-content text-center">
                 <div class="row">
@@ -239,9 +343,9 @@
                         <h3 class="text-left"> No Tattoo !!</h3>
                     @endif
                 </div>
-                {{--<div class="row">--}}
-                {{--<button class="btn btn-default btn-lg">VIEW MORE</button>--}}
-                {{--</div>--}}
+                <div class="row">
+                <button class="btn btn-default btn-lg">VIEW MORE</button>
+                </div>
 
             </div>
             <br><br><br><br>
@@ -252,7 +356,8 @@
     <div id="upload-tattoo-form" style="display: none">
         <form method="post" action="{!! url('tattoo/upload') !!}" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="artist" value="{{ $artist->id }}">
+            <input type="hidden" name="id" value="{{ $artist->id }}">
+            <input type="hidden" name="type" value="artist">
 
             <div class="omb_login">
                 <h3 class="omb_authTitle">Upload Tattoo</h3>
@@ -400,6 +505,8 @@
 
 
     <script src="{{  asset('assets/js/dropzone.min.js') }}"></script>
+    <script src="//cdn.ckeditor.com/4.5.3/standard/ckeditor.js"></script>
+
     <script>
         var token = "{{ Session::getToken() }}";
 
@@ -429,6 +536,55 @@
             });
         }));
 
+        $('#upload-cover-btn').bind('click', function(event) {
+            $("#cover-btn").trigger( "click" );
+        });
+
+        $("#cover-btn").change(function (){
+            console.log('file selected!!');
+            $("#coverPicForm").submit();
+        });
+        $("#coverPicForm").on('submit',(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{!! url('artist/update/cover') !!}", // Url to which the request is send
+                type: "POST",             // Type of request to be send, called as method
+                data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+                contentType: false,       // The content type used when sending data to the server.
+                cache: false,             // To unable request pages to be cached
+                processData:false,        // To send DOMDocument or non processed data file it is set to false
+                success: function(data)   // A function to be called if request succeeds
+                {
+                    //$("#artist-avatar").attr("src", data);
+                    location.reload();
+                }
+            });
+        }));
+
+        $('#save-bio-btn').bind('click', function(event) {
+
+            var bio = $("#artist-bio").html();
+            //console.log(bio);
+            $.ajax({
+                url: "{!! url('artist/update/bio') !!}", // Url to which the request is send
+                type: "POST",             // Type of request to be send, called as method
+                data: {
+                    _token: token,
+                    bio:bio
+
+                },
+                success: function(data)   // A function to be called if request succeeds
+                {
+                    if(data.success){
+                        alert("Successfully Updated");
+                    }
+                    else if(!data.success){
+                        alert("Error!!");
+                    }
+                }
+            });
+        });
+
         $('#upload-tattoo-btn').bind('click', function(event) {
             event.preventDefault();
             $('#modal-content').html($("#upload-tattoo-form").html());
@@ -440,54 +596,131 @@
             $(".modal").show();
         });
 
+        @if($isArtistProfile)
+            CKEDITOR.inline( 'artist-bio' );
+        @endif
 
-        //dropzone upload
-        var baseUrl = "{{ url('/') }}";
-        Dropzone.autoDiscover = false;
-        var myDropzone = new Dropzone("#upload-tattoo-btsn", {
-            url: baseUrl + "tattoo/upload",
-            params: {
-                _token: token,
-                artist:{{ $artist->id }}
-            },
-            init: function() {
-                this.on("addedfile", function(file) {
-                    // console.log('addedfile...');
+    </script>
+
+    @if($artist->latitude && $artist->longitude)
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQrhuvnlZDIxxcKJI6sMS79qpE7Ff_yAA"></script>
+        <script>
+            var latlng = new google.maps.LatLng({!! $artist->latitude !!}, {!! $artist->longitude !!});
+            function initialize() {
+                var myOptions = {
+                    zoom: 18,
+                    center: latlng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    disableDefaultUI: true
+                };
+                var map = new google.maps.Map(document.getElementById("artist-map"), myOptions);
+                var marker = new google.maps.Marker({
+                    position:latlng,
+                    title: '{!! $artist->firstname !!}',
                 });
-                this.on("thumbnail", function(file, dataUrl) {
-                    // console.log('thumbnail...');
-                    //$('.dz-image-preview').hide();
-                    //$('.dz-file-preview').hide();
-                });
-                this.on("success", function(file, res) {
-                    //console.log('upload success...');
-                    //$('<input type="hidden" name="menus[]" value="' + res.path + '" />').appendTo('#menu-imgs');
-                });
+
+                marker.setMap(map);
             }
-        });
+            google.maps.event.addDomListener(window, "load", initialize);
+        </script>
+    @else
+        <script>
+            function initMap() {
+                var map = new google.maps.Map(document.getElementById('artist-map'), {
+                    center: {lat: 28.5504053, lng: 77.2220366},
+                    zoom: 13,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    disableDefaultUI: true
+                });
+                var input = /** @type {!HTMLInputElement} */(
+                        document.getElementById('pac-input'));
 
-    </script>
+                var types = document.getElementById('type-selector');
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQrhuvnlZDIxxcKJI6sMS79qpE7Ff_yAA"></script>
-    <script>
-        var latlng = new google.maps.LatLng({!! $artist->latitude !!}, {!! $artist->longitude !!});
-        function initialize() {
-            var myOptions = {
-                zoom: 18,
-                center: latlng,
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                disableDefaultUI: true
-            };
-            var map = new google.maps.Map(document.getElementById("artist-map"), myOptions);
-            var marker = new google.maps.Marker({
-                position:latlng,
-                title: '{!! $artist->user->firstname !!}',
-            });
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                autocomplete.bindTo('bounds', map);
 
-            marker.setMap(map);
-        }
+                var infowindow = new google.maps.InfoWindow();
+                var marker = new google.maps.Marker({
+                    map: map,
+                    anchorPoint: new google.maps.Point(0, -29)
+                });
 
-        google.maps.event.addDomListener(window, "load", initialize);
+                autocomplete.addListener('place_changed', function() {
+                    infowindow.close();
+                    marker.setVisible(false);
+                    var place = autocomplete.getPlace();
+                    if (!place.geometry) {
+                        window.alert("Autocomplete's returned place contains no geometry");
+                        return;
+                    }
 
-    </script>
+                    // If the place has a geometry, then present it on a map.
+                    if (place.geometry.viewport) {
+                        map.fitBounds(place.geometry.viewport);
+                    } else {
+                        map.setCenter(place.geometry.location);
+                        map.setZoom(17);  // Why 17? Because it looks good.
+                    }
+                    marker.setIcon(/** @type {google.maps.Icon} */({
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(35, 35)
+                    }));
+                    marker.setPosition(place.geometry.location);
+                    marker.setVisible(true);
+
+                    var address = '';
+                    if (place.address_components) {
+                        address = [
+                            (place.address_components[0] && place.address_components[0].short_name || ''),
+                            (place.address_components[1] && place.address_components[1].short_name || ''),
+                            (place.address_components[2] && place.address_components[2].short_name || '')
+                        ].join(' ');
+                    }
+
+                    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+                    infowindow.open(map, marker);
+
+                    $.ajax({
+                        url: "{!! url('artist/update/location') !!}", // Url to which the request is send
+                        type: "POST",             // Type of request to be send, called as method
+                        data: {
+                            _token: token,
+                            lat : place.geometry.location.G,
+                            long: place.geometry.location.K
+
+                        },
+                        success: function(data)   // A function to be called if request succeeds
+                        {
+                            if(data.success){
+                                alert("Successfully Updated");
+                            }
+                            else if(!data.success){
+                                alert("Error!!");
+                            }
+                        }
+                    });
+                });
+
+                // Sets a listener on a radio button to change the filter type on Places
+                // Autocomplete.
+                function setupClickListener(id, types) {
+                    var radioButton = document.getElementById(id);
+                    radioButton.addEventListener('click', function() {
+                        autocomplete.setTypes(types);
+                    });
+                }
+
+                setupClickListener('changetype-all', []);
+
+            }
+        </script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQrhuvnlZDIxxcKJI6sMS79qpE7Ff_yAA&libraries=places&callback=initMap" async defer></script>
+    @endif
 @endsection

@@ -92,13 +92,13 @@
                             <a href="{!! url('artist/' . $artist->id) !!}">
                                 <div class="thumbnail">
                                     @if (filter_var($artist->user->avatar, FILTER_VALIDATE_URL) === FALSE)
-                                        <img src="{!! url('uploads/images/thumbnail/' . $artist->user->avatar) !!}" alt="{!! $artist->user->firstname !!}">
+                                        <img src="{!! url('uploads/images/thumbnail/' . $artist->user->avatar) !!}" alt="{!! $artist->user->name !!}" class="img-responsive">
                                     @else
-                                        <img src="{!! $artist->user->avatar !!}" alt="{!! $artist->user->firstname !!}">
+                                        <img src="{!! $artist->user->avatar !!}" alt="{!! $artist->user->name !!}" class="img-responsive">
                                     @endif
                                     <div class="caption">
-                                        <p class="text-warning">{!! $artist->user->firstname !!} {!! $artist->user->lastname !!}</p>
-                                        <p>{!! $artist->user->city !!}</p>
+                                        <p class="text-warning">{!! $artist->user->name !!}</p>
+                                        <p>{!! $artist->city . ', ' . $artist->city   !!} </p>
                                     </div>
                                 </div>
                             </a>

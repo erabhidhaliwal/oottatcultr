@@ -35,7 +35,8 @@ class RedirectIfProfileNotComplete
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->user()->isProfileComplete()){
+        if($request->user()->type() == "none"){
+            session()->flash('success', 'Welcome '. $request->user()->name . '. Please complete your profile..');
             return redirect('complete-profile');
         }
 

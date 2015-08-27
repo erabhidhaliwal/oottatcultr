@@ -32,6 +32,9 @@
 
 {{--Show Errors--}}
 @foreach ($errors->all() as $error)
+    <script>
+        alert('{!! $error !!}');
+    </script>
 @endforeach
 
 @yield('content')
@@ -41,6 +44,16 @@
 @if (session('success'))
     <script>
         alert('{!! session('success') !!}');
+    </script>
+@endif
+@if (session('status'))
+    <script>
+        alert('{!! session('status') !!}');
+    </script>
+@endif
+@if (session('error'))
+    <script>
+        alert('{!! session('error') !!}');
     </script>
 @endif
 

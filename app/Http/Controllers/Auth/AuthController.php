@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Artist;
+use App\Member;
+use App\Studio;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -24,7 +27,7 @@ class AuthController extends Controller
     |
     */
 
-    protected $loginPath = '/#login';
+    protected $loginPath = '/user/login';
 
     protected $redirectPath = '/profile';
 
@@ -51,9 +54,9 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'firstname' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
+            'contact' => 'required|min:10',
         ]);
     }
 
@@ -65,13 +68,95 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        $user =  User::create([
-                    'firstname' => $data['firstname'],
-                    'lastname' => $data['lastname'],
-                    'email' => $data['email'],
-                    'contact' => $data['contact'],
-                    'password' => bcrypt($data['password']),
-                ]);
+        if(!isset($data['type'])){
+            $data['type'] = 'none';
+        }
+        elseif($data['type'] == 'member'){
+            Validator::make($data, [
+                'firstname' => 'required',
+                'lastname' => 'required',
+            ]);
+
+            //create user
+            $user =  User::create([
+                'name' => $data['firstname'] . ' ' . $data['lastname'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'contact' => $data['contact'],
+                'type' => $data['type'],
+            ]);
+            $member = new Member();
+            $member->user_id = $user->id;
+            $member->firstname = $data['firstname'];
+            $member->lastname = $data['lastname'];
+            if($member->save()){
+                session()->flash('success', 'Member Profile Created Successfully!');
+            }
+            else{
+                $user->delete();
+                session()->flash('error','Error! Please try again..');
+            }
+        }
+        elseif($data['type'] == 'artist'){
+            Validator::make($data, [
+                'firstname' => 'required',
+                'lastname' => 'required',
+            ]);
+
+            //create user
+            $user =  User::create([
+                'name' => $data['firstname'] . ' ' . $data['lastname'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'contact' => $data['contact'],
+                'type' => $data['type'],
+            ]);
+
+            $artist = new Artist();
+            $artist->user_id = $user->id;
+            $artist->firstname = $data['firstname'];
+            $artist->lastname = $data['lastname'];
+            if($artist->save()){
+                session()->flash('success', 'Artist Profile Created Successfully!');
+            }
+            else{
+                $user->delete();
+                session()->flash('error','Error! Please try again..');
+            }
+
+        }
+        elseif($data['type'] == 'studio'){
+            Validator::make($data, [
+                'name' => 'required',
+                'title' => 'required',
+            ]);
+
+            //create user
+            $user =  User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'contact' => $data['contact'],
+                'type' => $data['type'],
+            ]);
+
+            $studio = new Studio();
+            $studio->user_id = $user->id;
+            $studio->name = $user->name;
+            $studio->title = $data['title'];
+            if($studio->save()){
+                session()->flash('success', 'Studio Created Successfully!');
+            }
+            else{
+                $user->delete();
+                session()->flash('error','Error! Please try again..');
+            }
+
+
+
+        }
+
+        //dd($data);
 
         //do your role stuffs here
 
@@ -110,25 +195,31 @@ class AuthController extends Controller
     public function handleFacebookCallback()
     {
         $user = Socialite::driver('facebook')->user();
-
         //dd($user);
-
         if(User::where('email', $user->email)->where('social', true)->count()){
-            //dd($user);
             Auth::login(User::where('email', '=', $user->email)->first());
-            return redirect('profile');
+            return redirect('profile')->with('success', 'Welcome ' . $user->name);;
         }
         else{
             echo "auth no attempt matched";
             $row = new User;
             $row->email = $user->email;
             $row->avatar = $user->avatar;
-            $row->firstname = $user->user['first_name'];
-            $row->lastname = $user->user['last_name'];
+            $row->name = $user->name;
+            //$row->firstname = $user->user['first_name'];
+            //$row->lastname = $user->user['last_name'];
             $row->social = true;
+            $row->active = true;
             $row->password = bcrypt(str_random(40));
             if($row->save()){
-                return redirect('profile');
+                Mail::send('emails.welcome', $row->toArray(), function($message) use ($row)
+                {
+                    $message->from('no-reply@tattoocultr.com', "Tattoo Cultr");
+                    $message->subject("Welcome to Tattoo Cultr");
+                    $message->to($row['email']);
+                });
+
+                return redirect('user/login/facebook')->with('success', 'Registration successful!! Please complete your profile');
             }
             else{
                 return redirect('profile')->with('error', 'Error in Signing up. Please try again later..');

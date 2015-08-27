@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Artist;
+use App\Member;
 use App\Studio;
 use Illuminate\Http\Request;
 
@@ -23,20 +24,10 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        //redirect if user is already selected their profile Type ie. 'member/artist/studio'
-
-        if($user->type == 'member'){
-            return redirect('complete-profile-member');
+        //if not an image url from facebook
+        if (filter_var($user->avatar, FILTER_VALIDATE_URL) === FALSE) {
+            $user->avatar = url('uploads/images/thumbnail/' . $user->avatar);
         }
-        elseif($user->type == 'artist'){
-            return redirect('complete-profile-artist');
-        }
-        elseif($user->type == 'studio'){
-            return redirect('complete-profile-studio');
-        }
-
-        $user->avatar = url('uploads/images/small/' . $user->avatar);
-
         return view('pages.completeProfile', ['user' => $user]);
     }
 
@@ -45,26 +36,53 @@ class ProfileController extends Controller
      *
      * @return View
      */
-    public function completeProfileArtist()
+    public function completeProfileSave(Request $request)
     {
+        $this->validate($request, [
+            'firstname' => 'required|min:2|max:255',
+            'lastname' => 'required|min:2',
+            'type' => 'required',
+            'contact' => 'required|digits:10'
+        ]);
+
         $user = Auth::user();
-        if($user->type == 'member'){
-            return redirect('complete-profile-member');
+
+        if($request->input('type') == 'artist'){
+            $user->contact = $request->input('contact');
+            $user->type = 'artist';
+            $user->save();
+
+            $artist = new Artist();
+            $artist->user_id = $user->id;
+            $artist->firstname = $request->input('firstname');
+            $artist->lastname = $request->input('lastname');
+            $artist->experience = $request->input('experience');
+            $artist->bio = $request->input('bio');
+
+            if($artist->save()){
+                session()->flash('success', 'Artist Profile Created Successfully!');
+            }
+            else{
+                session()->flash('error','Error! Please try again..');
+            }
         }
+        if($request->input('type') == 'member'){
+            $user->contact = $request->input('contact');
+            $user->type = 'member';
+            $user->save();
 
-        //if profile is complete the redirect to dashboard
-        if($user->profileComplete){
-            return redirect('profile');
+            $member = new Member();
+            $member->user_id = $user->id;
+            $member->firstname = $request->input('firstname');
+            $member->lastname = $request->input('lastname');
+            if($member->save()){
+                session()->flash('success', 'Member Profile Created Successfully!');
+            }
+            else{
+                session()->flash('error','Error! Please try again..');
+            }
         }
-
-
-        if(!$user->social){
-            $user->avatar = url('uploads/images/small/' . $user->avatar);
-        }
-
-        $studios = Studio::all();
-
-        return view('pages.completeProfileArtist', ['user' => $user, 'studios' => $studios]);
+        return redirect('profile');
     }
 
     /**
@@ -76,9 +94,16 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        //if profile is complete the redirect to dashboard
-        if($user->profileComplete){
-            return redirect('profile');
+        if($user->type == "none"){
+            $member = new Member();
+            $member->user_id = $user->id;
+            $member->firstname = $user->name;
+            $member->lastname = '';
+            if($member->save()){
+                $user->type = 'member';
+                $user->save();
+                session()->flash('success', 'Member Profile Created Successfully!');
+            }
         }
 
         if($user->type == 'artist'){

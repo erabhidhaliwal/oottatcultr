@@ -29,31 +29,31 @@ $(function() {
 		$(".modal").hide();
 	});
 
-	$('.login-btn').bind('click', function(event) {
-		event.preventDefault();
-		$('#modal-content').html($("#login-form").html());
-		$(".modal").show();
-	});
-
-	$('.register-btn').bind('click', function(event) {
-		event.preventDefault();
-		$('#modal-content').html($("#register-form").html());
-		$(".modal").show();
-	});
-
-	$('#forget-pass-btn').bind('click', function(event) {
-		console.log("foget haan??");
-
-	});
-
-	if(window.location.hash == "#login") {
-		event.preventDefault();
-		$('#modal-content').html($("#login-form").html());
-		$(".modal").show();
-	}
-	if(window.location.hash == "#register") {
-		event.preventDefault();
-		$('#modal-content').html($("#register-form").html());
-		$(".modal").show();
-	}
+	//$('.login-btn').bind('click', function(event) {
+	//	event.preventDefault();
+	//	$('#modal-content').html($("#login-form").html());
+	//	$(".modal").show();
+	//});
+    //
+	//$('.register-btn').bind('click', function(event) {
+	//	event.preventDefault();
+	//	$('#modal-content').html($("#register-form").html());
+	//	$(".modal").show();
+	//});
+    //
+	//$('#forget-pass-btn').bind('click', function(event) {
+	//	console.log("foget haan??");
+    //
+	//});
+    //
+	//if(window.location.hash == "#login") {
+	//	event.preventDefault();
+	//	$('#modal-content').html($("#login-form").html());
+	//	$(".modal").show();
+	//}
+	//if(window.location.hash == "#register") {
+	//	event.preventDefault();
+	//	$('#modal-content').html($("#register-form").html());
+	//	$(".modal").show();
+	//}
 });

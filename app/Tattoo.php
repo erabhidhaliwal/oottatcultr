@@ -15,18 +15,34 @@ class Tattoo extends Model
 
 
     /**
-     * Get the artist that owns the tattoo.
-     */
-    public function artist()
-    {
-        return $this->belongsTo('App\Artist');
-    }
-
-    /**
      * Get the user who has uploaded the tattoo.
      */
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    /**
+     * Get the tattoos that benongs to the artist.
+     */
+    public function artists()
+    {
+        return $this->belongsToMany('App\Artist');
+    }
+
+    /**
+     * Get the studios that benongs to the artist.
+     */
+    public function studios()
+    {
+        return $this->belongsToMany('App\Studio');
+    }
+
+    /**
+     * Get the Tags that benongs to the tattoo.
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
     }
 }

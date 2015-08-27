@@ -29,9 +29,16 @@ class Artist extends Model
      */
     public function tattoos()
     {
-        return $this->hasMany('App\Tattoo');
+        return $this->belongsToMany('App\Tattoo');
     }
 
+    /**
+     * Get the tags that benongs to the artist.
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
 
 
 }

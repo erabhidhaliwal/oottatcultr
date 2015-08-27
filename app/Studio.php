@@ -25,5 +25,21 @@ class Studio extends Model
         return $this->belongsToMany('App\Artist')->withPivot('approved');
     }
 
+    /**
+     * Get the tags for the studio.
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
+
+    /**
+     * Get the tattoos for the studio.
+     */
+    public function tattoos()
+    {
+        return $this->belongsToMany('App\Tattoo');
+    }
+
 
 }

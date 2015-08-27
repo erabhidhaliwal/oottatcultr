@@ -14,20 +14,14 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('avatar')->nullable();
+            $table->string('name'); //full name for user, artist and studio name for studios
+            $table->string('avatar')->default('avatar.jpg');
             $table->string('email')->unique();
             $table->string('contact')->nullable();
             $table->string('password', 60);
-            $table->string('city', 111)->nullable();
-            $table->string('country', 111)->nullable();
             $table->boolean('social');
-            $table->boolean('verified');
-            $table->boolean('profileComplete');
             $table->boolean('active');
             $table->enum('type', ['studio', 'artist', 'member', 'none'])->default('none');
-            $table->integer('views');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -14,11 +14,25 @@ class CreateArtistsTable extends Migration
     {
         Schema::create('artists', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('user_id')->unsigned()->unique();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
             $table->integer('experience')->nullable();
-            $table->string('cover')->nullable();
+            $table->string('cover')->default('cover.jpg');
             $table->text('bio')->nullable();
+
+            $table->string('address', 111)->nullable();
+            $table->string('city', 55)->nullable();
+            $table->string('country', 55)->nullable();
+            $table->string('latitude', 22)->nullable();
+            $table->string('longitude', 22)->nullable();
+
+            $table->integer('recommend')->unsigned();
+            $table->integer('views')->unsigned();
+            $table->enum('membership', ['free', 'premium', 'platinum'])->default('free');
+            $table->boolean('verified');
+
             $table->timestamps();
         });
     }

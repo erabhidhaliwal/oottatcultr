@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Artist;
 use App\Follow;
+use App\Member;
 use App\Studio;
 use App\Tattoo;
 use App\User;
@@ -34,7 +35,7 @@ class MainController extends Controller
      */
     public function artists()
     {
-        $artists = Artist::all();
+        $artists = Artist::where('verified', true)->get();
 
         return view('pages.artists', ['artists'=> $artists]);
     }
@@ -121,10 +122,13 @@ class MainController extends Controller
     public function profile()
     {
         $user = Auth::user();
+        //if not an image url from facebook
+        if (filter_var($user->avatar, FILTER_VALIDATE_URL) === FALSE) {
+            $user->avatar = url('uploads/images/thumbnail/' . $user->avatar);
+        }
 
-
-        if (!$user->social) {
-            $user->avatar = url('uploads/images/small/' . $user->avatar);
+        if(!$user->verified){
+            session()->flash('warning', 'Please verify your email address!!');
         }
 
         //if user is artist, load artist profile view
@@ -132,48 +136,32 @@ class MainController extends Controller
             $artist = Artist::where('user_id', $user->id)->first();
             $artist->cover = url('uploads/images/large/' . $artist->cover);
 
-            return redirect('artist/' . $artist->id);
+            if (filter_var($artist->user->avatar, FILTER_VALIDATE_URL) === FALSE) {
+                $artist->user->avatar = url('uploads/images/thumbnail/' . $artist->user->avatar);
+            }
 
+            $isArtistProfile = true;
+            return view('pages.artist', ['user' => $user, 'artist' => $artist, 'isArtistProfile'=> $isArtistProfile]);
+        }
+        elseif ($user->type == 'studio') {
+            $studio = Studio::where('user_id', $user->id)->first();
+            $studio->cover = url('uploads/images/large/' . $studio->cover);
 
-            //return view('pages.profile.artist', ['user' => $user, 'artist' => $artist]);
+            return view('pages.studio', ['user' => $user, 'studio' => $studio]);
+        }
+        elseif ($user->type == 'member') {
+            $member = Member::where('user_id', $user->id)->first();
+
+            return view('pages.member', ['user' => $user, 'member' => $member]);
+        }
+        else{
+            return redirect('complete-profile')->flash('success', 'Welcome. Please complete your profile..');
         }
 
-        return view('pages.profile.member', ['user' => $user]);
+        return redirect('/');
 
     }
 
-
-    /**
-     * Display artist profile
-     *
-     * @return View
-     */
-    public function artist($id)
-    {
-        $artist = Artist::find($id);
-        $user = Auth::user();
-
-        $isArtistProfile = false;
-        $isFollowing = false;
-
-        if (Auth::check()) {
-            if ($artist->user_id == Auth::User()->id) {
-                $isArtistProfile = true;
-            }
-            if(Follow::where('artist_id', $artist->id)->where('user_id', $user->id)->count()){
-                $isFollowing = true;
-            }
-        }
-
-        //if not an image url from facebook
-        if (filter_var($artist->user->avatar, FILTER_VALIDATE_URL) === FALSE) {
-            $artist->user->avatar = url('uploads/images/thumbnail/' . $artist->user->avatar);
-        }
-
-        $artist->cover = url('uploads/images/large/' . $artist->cover);
-
-        return view('pages.artist', ['artist' => $artist, 'isArtistProfile' => $isArtistProfile, 'isFollowing' => $isFollowing]);
-    }
 
     /**
      * Display artist Studios
@@ -208,125 +196,18 @@ class MainController extends Controller
     }
 
 
-
-    /**
-     * Update user profile
-     *
-     * @return View
-     */
-    public function uploadTattoo(Request $request)
-    {
-        $user = Auth::user();
-
-        $artist = Artist::find($request->input('artist'));
-
-        if ($request->hasFile('tattoo')) {
-            //upload an image to the /img/tmp directory and return the filepath.
-            // dd($request);
-
-            $file = $request->file('tattoo');
-            $tmpFilePath = '/uploads/images/original/';
-            $tmpFileName = 'tattoo-' . time() . '-' . $file->getClientOriginalName();
-
-            //save original file
-            $file = $file->move(public_path() . $tmpFilePath, $tmpFileName);
-            $path = $tmpFilePath . $tmpFileName;
-
-            //edit image
-            $img = \Image::make($file);
-            $img->backup();
-
-            // reset image (return to backup state)
-            $img->reset();
-            $img->fit(360); //240*240
-            $img->save('uploads/images/thumbnail/' . $tmpFileName);
-
-            // reset image (return to backup state)
-            $img->reset();
-            $img->fit(120); //100*100
-            $img->save('uploads/images/small/' . $tmpFileName);
-
-            //save tattoo in DB
-            $tattoo = new Tattoo();
-            $tattoo->title = $request->input('title');
-            $tattoo->url = $tmpFileName;
-            $tattoo->artist_id = $artist->id;
-            $tattoo->description = $request->input('description');
-            $tattoo->user_id = $user->id;
-            if ($artist->user->id == $user->id) {
-                $tattoo->approved = true;
-            } else {
-                $tattoo->approved = false;
-            }
-            $tattoo->save();
-        }
-
-        return redirect('artist/' . $artist->id);
-    }
-
-
-    /**
-     * Approve Tattoo
-     *
-     * @return View
-     */
-    public function approveTattoo($id)
-    {
-        $user = Auth::user();
-
-        $artist = Artist::where('user_id', $user->id)->first();
-
-        $tattoo = Tattoo::find($id);
-
-        if($tattoo){
-            if($tattoo->artist_id == $artist->id){
-                $tattoo->approved = true;
-                $tattoo->save();
-                return redirect('artist/' . $artist->id)->with('success', 'Tattoo Approved Successfully');
-            }
-        }
-
-
-        return redirect('artist/' . $artist->id);
-    }
-
-    /**
-     * Approve Tattoo
-     *
-     * @return View
-     */
-    public function rejectTattoo($id)
-    {
-        $user = Auth::user();
-
-        $artist = Artist::where('user_id', $user->id)->first();
-
-        $tattoo = Tattoo::find($id);
-
-        if($tattoo){
-            if($tattoo->artist_id == $artist->id){
-                $tattoo->delete();
-                return redirect('artist/' . $artist->id)->with('success', 'Tattoo Deleted Successfully');
-            }
-        }
-
-
-        return redirect('artist/' . $artist->id);
-    }
-
-
     /**
      * Follow Artist
      *
      * @return View
      */
-    public function FollowArtist($id)
+    public function Follow($id)
     {
         $user = Auth::user();
 
-        $artist = Artist::find($id);
+        $whom = User::find($id);
 
-        if($artist){
+        if($whom){
             $follow = new Follow();
             $follow->user_id = $user->id;
             $follow->artist_id = $id;
